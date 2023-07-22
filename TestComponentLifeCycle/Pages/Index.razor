@@ -23,7 +23,7 @@
     {
         try
         {
-            var toto = await CookieStorageAccessor.GetValueAsync<string>(valueUser);
+            var toto = await CookieStorageAccessor.GetValueAsync<string>(valueUser); //for debug
             StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(valueUser);
         }
         catch (Exception ex)
