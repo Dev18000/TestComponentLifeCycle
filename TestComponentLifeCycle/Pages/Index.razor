@@ -1,0 +1,64 @@
+﻿@page "/"
+
+@using System.Globalization
+@using TestComponentLifeCycle.Models;
+@using TestComponentLifeCycle.Services;
+@using System.Security.Claims
+
+@inject CookieStorageAccessor CookieStorageAccessor
+@inject IJSRuntime JS
+
+<div>
+    <input type="text" @bind="valueUser" @bind:event="oninput" />
+    <button @onclick=appendCookie>click </button>
+</div>
+<div>
+    <input @bind-value=StaticProperty.UserNameInSessionCookies />
+</div>
+
+
+@code {
+    private string valueUser { get; set; }
+    protected async override void OnInitialized()
+    {
+        try
+        {
+            var toto = await CookieStorageAccessor.GetValueAsync<string>(valueUser);
+            StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(valueUser);
+        }
+        catch (Exception ex)
+        {
+            var msg = ex.Message;
+        }
+        StateHasChanged();
+    }
+
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender)
+    //        StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(valueUser);
+    //    else
+    //        StaticProperty.UserNameInSessionCookies = "";
+    //}
+
+    public async Task SetCookiesValueAsync()
+    {
+        await CookieStorageAccessor.SetValueAsync("testCookieCycle", valueUser);
+        await GetGookiesValueAsync();
+    }
+
+    public async Task GetGookiesValueAsync()
+    {
+        if (!string.IsNullOrEmpty(valueUser))
+            StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(valueUser);
+        else
+            StaticProperty.UserNameInSessionCookies = "rien";
+
+        StateHasChanged();
+    }
+
+    private async Task appendCookie()
+    {
+        await SetCookiesValueAsync();
+    }
+}
