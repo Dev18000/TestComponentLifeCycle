@@ -18,9 +18,11 @@
 
 
 @code {
+    #region property
     private string keyNameCookie = "testCookieCycle";
-
     private string valueUser { get; set; }
+    #endregion
+
     protected async override void OnInitialized()
     {
         try
