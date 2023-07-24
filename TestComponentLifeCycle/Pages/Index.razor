@@ -51,7 +51,7 @@ private string keyNameCookie = "testCookieCycle";
 
     public async Task GetGookiesValueAsync()
     {
-        if (!string.IsNullOrEmpty(valueUser))
+        if (!string.IsNullOrEmpty(keyNameCookie))
             StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(keyNameCookie);
         else
             StaticProperty.UserNameInSessionCookies = "rien";
