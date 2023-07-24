@@ -18,13 +18,15 @@
 
 
 @code {
+private string keyNameCookie = "testCookieCycle";
+
     private string valueUser { get; set; }
     protected async override void OnInitialized()
     {
         try
         {
-            var toto = await CookieStorageAccessor.GetValueAsync<string>(valueUser); //for debug
-            StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(valueUser);
+            var toto = await CookieStorageAccessor.GetValueAsync<string>(keyNameCookie); //for debug
+            StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(keyNameCookie);
         }
         catch (Exception ex)
         {
@@ -36,21 +38,21 @@
     //protected override async Task OnAfterRenderAsync(bool firstRender)
     //{
     //    if (firstRender)
-    //        StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(valueUser);
+    //        StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(keyNameCookie);
     //    else
     //        StaticProperty.UserNameInSessionCookies = "";
     //}
 
     public async Task SetCookiesValueAsync()
     {
-        await CookieStorageAccessor.SetValueAsync("testCookieCycle", valueUser);
+        await CookieStorageAccessor.SetValueAsync(keyNameCookie, valueUser);
         await GetGookiesValueAsync();
     }
 
     public async Task GetGookiesValueAsync()
     {
         if (!string.IsNullOrEmpty(valueUser))
-            StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(valueUser);
+            StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(keyNameCookie);
         else
             StaticProperty.UserNameInSessionCookies = "rien";
 
