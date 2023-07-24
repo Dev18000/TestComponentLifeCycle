@@ -20,7 +20,7 @@
 @code {
     #region property
     private string keyNameCookie = "testCookieCycle";
-    private string valueUser { get; set; }
+    private string valueUser { get; set; } //property bind => use user enter value & save in cookie
     #endregion
 
     protected async override void OnInitialized()
@@ -56,7 +56,7 @@
         StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(keyNameCookie);
     }
 
-    private async Task appendCookie()
+    private async Task appendCookie() //for click btn
     {
         await SetCookiesValueAsync();
     }
