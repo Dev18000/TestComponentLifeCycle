@@ -18,7 +18,7 @@
 
 
 @code {
-private string keyNameCookie = "testCookieCycle";
+    private string keyNameCookie = "testCookieCycle";
 
     private string valueUser { get; set; }
     protected async override void OnInitialized()
@@ -26,7 +26,7 @@ private string keyNameCookie = "testCookieCycle";
         try
         {
             var toto = await CookieStorageAccessor.GetValueAsync<string>(keyNameCookie); //for debug
-            StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(keyNameCookie);
+            await GetGookiesValueAsync();
         }
         catch (Exception ex)
         {
@@ -51,12 +51,7 @@ private string keyNameCookie = "testCookieCycle";
 
     public async Task GetGookiesValueAsync()
     {
-        if (!string.IsNullOrEmpty(keyNameCookie))
-            StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(keyNameCookie);
-        else
-            StaticProperty.UserNameInSessionCookies = "rien";
-
-        StateHasChanged();
+        StaticProperty.UserNameInSessionCookies = await CookieStorageAccessor.GetValueAsync<string>(keyNameCookie);
     }
 
     private async Task appendCookie()
